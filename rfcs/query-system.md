@@ -27,11 +27,11 @@ abstracted away, making these just as easy to use as any function.
 
 ## Guide-level Explanation
 
-Queries can be called like any other method on an ADT, and take one or more "key" arguments. Key in this context is a newtype which stores some index or pointer into an interner. The callee will then either compute the return value, if this is the first time it's been called, or get it from an arena or on disk.
+Queries can be called like any other method on an ADT, and take one or more key arguments. In this context, key represents a newtype which stores some index or pointer into an interner. The callee will then either compute the return value, if this is the first time it's been called, or get it from an arena or on disk.
 
-The implementation of a query is guaranteed to have no side-effects, i.e., are pure functions. It's a logic bug for one to do so, and careful thought must be put into its implementation to ensure this isn't the case.
+The implementation of a query is guaranteed to have no side-effects, informally, they can be considered pure functions. It's a logic bug for one to do so, and careful thought must be put into its implementation to ensure this isn't the case.
 
-The `Steal<T>` type represents immutable, borrowed data, until it's stolen in which it can never be read from again. Queries return pure, "immutable" data and as such simply returning a `Mutex` or any other ADT with interior mutability is disallowed. The `Steal<T>` type solves this by disallowing mutation until it can no longer be observed. When stealing data using the `steal` method, there are two things you must be sure of:
+To allow mutation or ownership of data acquired from a query, the `Steal<T>` type must be used. The `Steal<T>` type represents immutable, borrowed data, until it's stolen in which it can never be read from again. Queries return pure, "immutable" data and as such simply returning a `Mutex` or any other ADT with interior mutability is disallowed. The `Steal<T>` type solves this by disallowing mutation until it can no longer be observed. When stealing data using the `steal` method, there are two things you must be sure of:
 
 * You require ownership of the data
 * The query will never be read from again
