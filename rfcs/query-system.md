@@ -79,7 +79,10 @@ so this type will be commonly used.
 
 ## Rationale And Alternatives
 
-- a
+- faster
+- less memory usage
+
+alternative: don't
 
 <!-- TODO: Explain this in better detail. -->
 
@@ -90,7 +93,12 @@ calling queries in an idiomatic way, inspired by [rustc's query system](https://
 
 ## Unresolved Questions
 
-<!-- TODO: A LOT. -->
+- name of `Steal`
+- name of `Cacheable`
+- how to encorporate this into Bevy's ECS
+- ... how it works
+
+<!-- TODO: Explain this in better detail and add more to this. -->
 
 ## Future Possibilities
 
