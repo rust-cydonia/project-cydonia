@@ -39,13 +39,13 @@ careful thought must be put into its implementation to ensure this isn't the
 case.
 
 To allow mutation or ownership of data acquired from a query, the `Steal<T>`
-type must be used which wraps the returned data of the query. The `Steal<T>`
-type represents immutable, borrowed data, until it's stolen in which it can
-never be read from again. Queries return pure, "immutable" data and as such
-simply returning a `Mutex` or any other ADT with interior mutability is
-disallowed. The `Steal<T>` type solves this by disallowing mutation until it can
-no longer be observed. When stealing data using the `steal` method, there are
-two things you must be sure of:
+type must be used which wraps the returned data of the query. The `Steal` type
+represents immutable, borrowed data, until it's stolen in which it can never be
+read from again. Queries return pure, "immutable" data and as such simply
+returning a `Mutex` or any other ADT with interior mutability is disallowed. The
+`Steal` type solves this by disallowing mutation until it can no longer be
+observed. When stealing data using the `steal` method, there are two things you
+must be sure of:
 
 - You require ownership of the data
 - The query will never be read from again
@@ -56,7 +56,7 @@ prevent premature mutation.
 
 It's immediate Undefined Behavior to mutate the wrapped data before calling
 `steal` because `T` must implement `Freeze`. Informally, there is no way to have
-interior mutability within a `Steal<T>` and transmuting the `&` acquired from
+interior mutability within a `Steal<T>` and transmuting the `&T` acquired from
 `borrow` is Undefined Behavior. No, you can't do it, no, you're not special.
 
 ## Reference-level Explanation
