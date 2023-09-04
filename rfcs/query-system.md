@@ -27,18 +27,37 @@ abstracted away, making these just as easy to use as any function.
 
 ## Guide-level Explanation
 
-Queries can be called like any other method on an ADT, and take one or more key arguments. In this context, key represents a newtype which stores some index or pointer into an interner. The callee will then either compute the return value, if this is the first time it's been called, or get it from an arena or on disk.
+Queries can be called like any other method on an ADT, and take one or more key
+arguments. In this context, key represents a newtype which stores some index or
+pointer into an interner. The callee will then either compute the return value,
+if this is the first time it's been called with these arguments, or get it from
+an arena or on disk.
 
-The implementation of a query is guaranteed to have no side-effects, informally, they can be considered pure functions. It's a logic bug for one to do so, and careful thought must be put into its implementation to ensure this isn't the case.
+The implementation of a query is guaranteed to have no side-effects, informally,
+they can be considered pure functions. It's a logic bug for one to do so, and
+careful thought must be put into its implementation to ensure this isn't the
+case.
 
-To allow mutation or ownership of data acquired from a query, the `Steal<T>` type must be used. The `Steal<T>` type represents immutable, borrowed data, until it's stolen in which it can never be read from again. Queries return pure, "immutable" data and as such simply returning a `Mutex` or any other ADT with interior mutability is disallowed. The `Steal<T>` type solves this by disallowing mutation until it can no longer be observed. When stealing data using the `steal` method, there are two things you must be sure of:
+To allow mutation or ownership of data acquired from a query, the `Steal<T>`
+type must be used which wraps the returned data of the query. The `Steal<T>`
+type represents immutable, borrowed data, until it's stolen in which it can
+never be read from again. Queries return pure, "immutable" data and as such
+simply returning a `Mutex` or any other ADT with interior mutability is
+disallowed. The `Steal<T>` type solves this by disallowing mutation until it can
+no longer be observed. When stealing data using the `steal` method, there are
+two things you must be sure of:
 
-* You require ownership of the data
-* The query will never be read from again
+- You require ownership of the data
+- The query will never be read from again
 
-As such, if you only need to read it, you should always call `borrow` instead of `steal`. There is no way to get a mutable reference to `T` in a `Steal<T>` to prevent premature mutation.
+As such, if you only need to read it, you should always call `borrow` instead of
+`steal`. There is no way to get a mutable reference to `T` in a `Steal<T>` to
+prevent premature mutation.
 
-While this technically breaks the TODO TODO :3 :3
+It's immediate Undefined Behavior to mutate the wrapped data before calling
+`steal` because `T` must implement `Freeze`. Informally, there is no way to have
+interior mutability within a `Steal<T>` and transmuting the `&` acquired from
+`borrow` is Undefined Behavior. No, you can't do it, no, you're not special.
 
 ## Reference-level Explanation
 
