@@ -31,10 +31,23 @@ abstracted away, making these just as easy to use as any function.
 
 ## Drawbacks
 
+The complexity of the implementation may not be worth it for Cydonia. While we
+will make this as easy as possible to use, this will end up making the codebase
+more complex and harder to understand.
+
+Queries which return `Steal<T>` are also something that will end up making
+Cydonia harder to work with, as accessing this data will panic if it has been
+stolen from.
+
 ## Rationale And Alternatives
 
 ## Prior Art
 
+The [Salsa](https://github.com/salsa-rs/salsa) crate allows for defining and
+calling queries in an idiomatic way, inspired by [rustc's query system](https://rustc-dev-guide.rust-lang.org/query.html).
+
 ## Unresolved Questions
 
 ## Future Possibilities
+
+N/A
