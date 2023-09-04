@@ -5,21 +5,19 @@ This repository is dedicated to tracking the development of Cydonia.
 ## Summary
 
 <!-- markdownlint-disable MD013 -->
-<!-- markdownlint-disable MD033 -->
 
 | Goal                                        | Status                                 | Priority   |
 | ------------------------------------------- | -------------------------------------- | ---------- |
-| Solar System Demo                           | **WIP**: Blocked on the switch to Bevy | <u>**_High_**</u> |
-| Storing orbits                              | **WIP**: Should be interned            | <u>**_High_**</u> |
-| Rendering orbits                            | **WIP**: Blocked on the switch to Bevy | <u>**_High_**</u> |
-| Celestia Scripts Parser                     | **WIP**: Needs grammar                 | <u>**_High_**</u> |
-| [Unit System](goals/unit-system.md)         | **WIP**: Needs design (RFC)            | <u>**_High_**</u> |
-| VSOP2013 + TOP2013 Ephemerides              | **WIP**: Not started yet               | <u>**_High_**</u> |
-| WGCCRE 2015                                 | **WIP**: Not started yet               | <u>**_High_**</u> |
+| Solar System Demo                           | **WIP**: Blocked on the switch to Bevy | **_High_** |
+| Storing orbits                              | **WIP**: Should be interned            | **_High_** |
+| Rendering orbits                            | **WIP**: Blocked on the switch to Bevy | **_High_** |
+| Celestia Scripts Parser                     | **WIP**: Needs grammar                 | **_High_** |
+| [Unit System](goals/unit-system.md)         | **WIP**: Needs design (RFC)            | **_High_** |
+| VSOP2013 + TOP2013 Ephemerides              | **WIP**: Not started yet               | **_High_** |
+| WGCCRE 2015                                 | **WIP**: Not started yet               | **_High_** |
 | IERS for Earth                              | **WIP**: Not started yet               | **Medium** |
 | [Query/Cache System](goals/query-system.md) | **WIP**: Not started yet               | **Medium** |
 | "New Format" Parser                         | **WIP**: Needs design (RFC)            | **Medium** |
 | VSOP87 Ephemerides                          | **WIP**: Needs design (interning)      | Low    |
 
-<!-- markdownlint-enable MD033 -->
 <!-- markdownlint-enable MD013 -->
