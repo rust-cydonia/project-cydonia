@@ -12,7 +12,7 @@ This repository is dedicated to tracking the development of Cydonia.
 | Celestia Scripts Parser                     | **WIP**: Needs grammar                 | **High**   |
 | [Unit System](goals/unit-system.md)         | **WIP**: Needs design (RFC)            | **High**   |
 | VSOP2013 + TOP2013 Ephemerides              | **WIP**: Not started yet               | **High**   |
-| WGCCRE2015                                  | **WIP**: Not started yet               | **High**   |
+| WGCCRE 2015                                 | **WIP**: Not started yet               | **High**   |
 | IERS for Earth                              | **WIP**: Not started yet               | **Medium** |
 | [Query/Cache System](goals/query-system.md) | **WIP**: Not started yet               | **Medium** |
 | "New Format" Parser                         | **WIP**: Needs design (RFC)            | **Medium** |
