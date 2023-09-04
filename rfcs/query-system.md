@@ -27,17 +27,31 @@ abstracted away, making these just as easy to use as any function.
 
 ## Guide-level Explanation
 
+Queries can be called like any other method on an ADT, and take one or more "key" arguments. Key in this context is a newtype which stores some index or pointer into an interner. The callee will then either compute the return value, if this is the first time it's been called, or get it from an arena or on disk.
+
+The implementation of a query is guaranteed to have no side-effects, i.e., are pure functions. It's a logic bug for one to do so, and careful thought must be put into its implementation to ensure this isn't the case.
+
+The `Steal<T>` type represents immutable, borrowed data, until it's stolen in which it can never be read from again. Queries return pure, "immutable" data and as such simply returning a `Mutex` or any other ADT with interior mutability is disallowed. The `Steal<T>` type solves this by disallowing mutation until it can no longer be observed. When stealing data using the `steal` method, there are two things you must be sure of:
+
+* You require ownership of the data
+* The query will never be read from again
+
+As such, if you only need to read it, you should always call `borrow` instead of `steal`. There is no way to get a mutable reference to `T` in a `Steal<T>` to prevent premature mutation.
+
+While this technically breaks the TODO TODO :3 :3
+
 ## Reference-level Explanation
 
 ## Drawbacks
 
 The complexity of the implementation may not be worth it for Cydonia. While we
-will make this as easy as possible to use, this will end up making the codebase
-more complex and harder to understand.
+will make this as easy as possible to use, it will inevitably end up making the
+codebase more complex and harder to understand for new Rustaceans.
 
 Queries which return `Steal<T>` are also something that will end up making
 Cydonia harder to work with, as accessing this data will panic if it has been
-stolen from.
+stolen from. This is intentionally the only way to mutate data from a query and
+so this type will be commonly used.
 
 ## Rationale And Alternatives
 
