@@ -61,6 +61,8 @@ interior mutability within a `Steal<T>` and transmuting the `&` acquired from
 
 ## Reference-level Explanation
 
+<!-- TODO: Explain in detail how the implementation will work. -->
+
 ## Drawbacks
 
 The complexity of the implementation may not be worth it for Cydonia. While we
@@ -74,12 +76,16 @@ so this type will be commonly used.
 
 ## Rationale And Alternatives
 
+<!-- TODO: Explain WHY. -->
+
 ## Prior Art
 
 The [Salsa](https://github.com/salsa-rs/salsa) crate allows for defining and
 calling queries in an idiomatic way, inspired by [rustc's query system](https://rustc-dev-guide.rust-lang.org/query.html).
 
 ## Unresolved Questions
+
+<!-- TODO: A LOT. -->
 
 ## Future Possibilities
 
