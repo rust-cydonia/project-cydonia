@@ -18,6 +18,6 @@ This repository is dedicated to tracking the development of Cydonia.
 | IERS for Earth                              | **WIP**: Not started yet               | **Medium** |
 | [Query/Cache System](goals/query-system.md) | **WIP**: Not started yet               | **Medium** |
 | "New Format" Parser                         | **WIP**: Needs design (RFC)            | **Medium** |
-| VSOP87 Ephemerides                          | **WIP**: Needs design (interning)      | Low    |
+| VSOP87 Ephemerides                          | **WIP**: Needs design (interning)      | Low        |
 
 <!-- markdownlint-enable MD013 -->
