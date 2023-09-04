@@ -5,8 +5,9 @@ nya mrrp meow mrrp
 
 ## Summary
 
-Cache interned data implementing [`Freeze`](https://stdrs.dev/nightly/x86_64-unknown-linux-gnu/core/marker/trait.Freeze.html)
-in an [arena](https://stackoverflow.com/questions/12825148/what-is-the-meaning-of-the-term-arena-in-relation-to-memory)
+Cache interned data implementing the `Cacheable` trait, similar to the rustc
+interal [`Freeze`](https://stdrs.dev/nightly/x86_64-unknown-linux-gnu/core/marker/trait.Freeze.html)
+trait in an [arena](https://stackoverflow.com/questions/12825148/what-is-the-meaning-of-the-term-arena-in-relation-to-memory)
 for later use or on disk for future runs of Cydonia.
 
 ## Motivation
@@ -16,14 +17,14 @@ for later use or on disk for future runs of Cydonia.
 Interning large data structures makes equality comparisons [O(1) instead of O(n)](https://matklad.github.io/2020/03/22/fast-simple-rust-interner.html),
 as an interner guarantees each value stored within is unique. Passing around
 interned data is also more efficient as it can be represented as either an index
-or pointer into some interner. In `rustc`, the interner used is the [`TyCtxt`](https://doc.rust-lang.org/nightly/nightly-rustc/rustc_middle/ty/struct.TyCtxt.html)
+or pointer into some interner. In `rustc`, the interner we use is the [`TyCtxt`](https://doc.rust-lang.org/nightly/nightly-rustc/rustc_middle/ty/struct.TyCtxt.html)
 (spoken as the type context) which internally holds this data in a `HashMap`.
 We will likely use an arena instead to reduce both number of allocations and
 making accessing the underlying data more efficient.
 
 The main benefit of queries is that these do this work for you; i.e., they will
 get this data from the global interner or on disk automagically. It's all
-abstracted away, making these just as easy to use as any function.
+abstracted away, making these just as easy to use and write as any function.
 
 ## Guide-level Explanation
 
@@ -41,23 +42,25 @@ case.
 To allow mutation or ownership of data acquired from a query, the `Steal<T>`
 type must be used which wraps the returned data of the query. The `Steal` type
 represents immutable, borrowed data, until it's stolen in which it can never be
-read from again. Queries return pure, "immutable" data and as such simply
+read from again. Queries return pure, immutable data and as such simply
 returning a `Mutex` or any other ADT with interior mutability is disallowed. The
 `Steal` type solves this by disallowing mutation until it can no longer be
-observed. When stealing data using the `steal` method, there are two things you
-must be sure of:
+observed as any further read will panic. When stealing data using the `steal`
+method, there are two things you must be sure of:
 
 - You require ownership of the data
 - The query will never be read from again
 
 As such, if you only need to read it, you should always call `borrow` instead of
-`steal`. There is no way to get a mutable reference to `T` in a `Steal<T>` to
-prevent premature mutation.
+`steal` so others can access it too. There is no way to get a mutable reference
+to `T` in a `Steal<T>` to prevent premature mutation.
 
 It's immediate Undefined Behavior to mutate the wrapped data before calling
-`steal` because `T` must implement `Freeze`. Informally, there is no way to have
-interior mutability within a `Steal<T>` and transmuting the `&T` acquired from
-`borrow` is Undefined Behavior. No, you can't do it, no, you're not special.
+`steal` because `T` must implement `Cacheable`. There is no way to (safely)
+have interior mutability with a type implementing `Cacheable` (as this would be
+a violation of the `unsafe impl Cacheable` contract) and transmuting the `&T`
+acquired from `borrow` is Undefined Behavior. No, you can't do it, no, you're
+not special.
 
 ## Reference-level Explanation
 
@@ -76,7 +79,9 @@ so this type will be commonly used.
 
 ## Rationale And Alternatives
 
-<!-- TODO: Explain WHY. -->
+- a
+
+<!-- TODO: Explain this in better detail. -->
 
 ## Prior Art
 
