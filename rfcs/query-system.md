@@ -77,7 +77,7 @@ Cydonia harder to work with, as accessing this data will panic if it has been
 stolen from. This is intentionally the only way to mutate data from a query and
 so this type will be commonly used.
 
-## Rationale And Alternatives
+## Rationale and Alternatives
 
 - faster
 - less memory usage
