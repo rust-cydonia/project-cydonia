@@ -4,10 +4,11 @@ owo
 
 ## Summary
 
-A large collection of ADTs corresponding to common units, like `Millimeters` for
-mm, `Kilometers` for km, etc., which can all be converted between each other
-implicitly through generics. This will make our data strongly typed and explicit
-in the type system what unit a function expects.
+A large collection of [ADT](https://en.wikipedia.org/wiki/Algebraic_data_type)s
+corresponding to common units, like `Millimeters` for mm, `Kilometers` for km,
+etc., which can all be converted between each other implicitly through generics.
+This will make our data strongly typed and explicit in the type system what unit
+a function expects.
 
 ## Motivation
 
@@ -54,6 +55,8 @@ consider using the try operator instead - `?`.
 -into_meters.try_into().unwrap();
 +into_meters.try_into()?;
 ```
+
+Now you can use interpret this parameter as meters carefree!
 
 <!-- TODO: Explain how to add new units -->
 
