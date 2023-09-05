@@ -79,7 +79,7 @@ Behavior in the future if used incorrectly.
 This is the one exception to the above `Cacheable` requirement. This can be
 freely mutated through `steal` which gives ownership of the underlying data, and
 makes it inaccessible to future callers of the query. You cannot undo this
-operation.
+operation, so tread carefully!
 
 This type can be thought of as part of the query system itself rather than its
 own type, thus why it can bypass the normal mutability restrictions. It's
@@ -101,9 +101,10 @@ so this type will be commonly used.
 ## Rationale and Alternatives
 
 Queries are faster and more efficient in memory usage than regular functions in
-many cases. They also allow us to compute something really complex once then
-reuse it many times. For example, in the future we could calculate N-body
-physics for objects in a system over a small timespan then cache it on disk.
+many cases despite the upfront cost of hashing. They also allow us to compute
+something really complex once then reuse it many times. For example, in the
+future we could calculate N-body physics for objects in a system over a small
+timespan then cache it on disk.
 
 ## Prior Art
 
