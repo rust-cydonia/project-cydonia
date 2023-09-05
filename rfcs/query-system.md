@@ -64,15 +64,26 @@ not special.
 
 ### The `Cacheable` trait
 
-The semantics of this trait are similar to rustc's `Freeze` trait, in that any type with interior mutability cannot be cached. However, this also extends to types with interior mutability behind an indirection (like `&T` or `&mut T`). As such, any type that implements this can be thought of as "frozen".
+The semantics of this trait are similar to rustc's `Freeze` trait, in that any
+type with interior mutability cannot be cached. However, this also extends to
+types with interior mutability behind an indirection (like `&T` or `&mut T`). As
+such, any type that implements this can be thought of as "frozen".
 
-As auto traits are currently unstable, we must implement this manually on types. Implementing this on a type should be `unsafe`, even if it isn't in the current implementation, as there are no guarantees this will not trigger Undefined Behavior in the future if used incorrectly.
+As auto traits are currently unstable, we must implement this manually on types.
+Implementing this on a type should be `unsafe`, even if it isn't in the current
+implementation, as there are no guarantees this will not trigger Undefined
+Behavior in the future if used incorrectly.
 
 ### The `Steal` type
 
-This is the one exception to the above `Cacheable` requirement. This can be freely mutated through `steal` which gives ownership of the underlying data, and makes it inaccessible to future callers of the query. You cannot undo this operation.
+This is the one exception to the above `Cacheable` requirement. This can be
+freely mutated through `steal` which gives ownership of the underlying data, and
+makes it inaccessible to future callers of the query. You cannot undo this
+operation.
 
-This type can be thought of as part of the query system itself rather than its own type, thus why it can bypass the normal mutability restrictions. It's similar to panicking upon calling the query but explicit in the type system.
+This type can be thought of as part of the query system itself rather than its
+own type, thus why it can bypass the normal mutability restrictions. It's
+similar to panicking upon calling the query but explicit in the type system.
 
 <!-- TODO: We need to describe the actual query system too. -->
 
@@ -101,9 +112,12 @@ calling queries in an idiomatic way, inspired by [rustc's query system](https://
 
 ## Unresolved Questions
 
-How exactly we will disallow interior mutability in the result of a query. Currently it seems we will need to put careful thought into ensuring values returned by a query can never be visibly mutated (minus `Steal`, of course).
+How exactly we will disallow interior mutability in the result of a query.
+Currently it seems we will need to put careful thought into ensuring values
+returned by a query can never be visibly mutated (minus `Steal`, of course).
 
-The names of these concepts are up for debate. For example, maybe we can use `Internable` instead of `Cacheable`?
+The names of these concepts are up for debate. For example, maybe we can use
+`Internable` instead of `Cacheable`?
 
 ## Future Possibilities
 
