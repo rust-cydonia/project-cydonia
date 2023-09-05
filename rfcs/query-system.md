@@ -12,8 +12,6 @@ for later use or on disk for future runs of Cydonia.
 
 ## Motivation
 
-<!-- TODO: This may be TMI in the motivation section. -->
-
 Interning large data structures makes equality comparisons [O(1) instead of O(n)](https://matklad.github.io/2020/03/22/fast-simple-rust-interner.html),
 as an interner guarantees each value stored within is unique. Passing around
 interned data is also more efficient as it can be represented as either an index
@@ -64,7 +62,19 @@ not special.
 
 ## Reference-level Explanation
 
-<!-- TODO: Explain in detail how the implementation will work. -->
+### The `Cacheable` trait
+
+The semantics of this trait are similar to rustc's `Freeze` trait, in that any type with interior mutability cannot be cached. However, this also extends to types with interior mutability behind an indirection (like `&T` or `&mut T`). As such, any type that implements this can be thought of as "frozen".
+
+As auto traits are currently unstable, we must implement this manually on types. Implementing this on a type should be `unsafe`, even if it isn't in the current implementation, as there are no guarantees this will not trigger Undefined Behavior in the future if used incorrectly.
+
+### The `Steal` type
+
+This is the one exception to the above `Cacheable` requirement. This can be freely mutated through `steal` which gives ownership of the underlying data, and makes it inaccessible to future callers of the query. You cannot undo this operation.
+
+This type can be thought of as part of the query system itself rather than its own type, thus why it can bypass the normal mutability restrictions. It's similar to panicking upon calling the query but explicit in the type system.
+
+<!-- TODO: We need to describe the actual query system too. -->
 
 ## Drawbacks
 
@@ -79,12 +89,10 @@ so this type will be commonly used.
 
 ## Rationale and Alternatives
 
-- faster
-- less memory usage
-
-alternative: don't
-
-<!-- TODO: Explain this in better detail. -->
+Queries are faster and more efficient in memory usage than regular functions in
+many cases. They also allow us to compute something really complex once then
+reuse it many times. For example, in the future we could calculate N-body
+physics for objects in a system over a small timespan then cache it on disk.
 
 ## Prior Art
 
@@ -93,13 +101,10 @@ calling queries in an idiomatic way, inspired by [rustc's query system](https://
 
 ## Unresolved Questions
 
-- name of `Steal`
-- name of `Cacheable`
-- how to encorporate this into Bevy's ECS
-- ... how it works
+How exactly we will disallow interior mutability in the result of a query. Currently it seems we will need to put careful thought into ensuring values returned by a query can never be visibly mutated (minus `Steal`, of course).
 
-<!-- TODO: Explain this in better detail and add more to this. -->
+The names of these concepts are up for debate. For example, maybe we can use `Internable` instead of `Cacheable`?
 
 ## Future Possibilities
 
-N/A
+Publishing this on [crates.io](https://crates.io/) so others can use this too.
