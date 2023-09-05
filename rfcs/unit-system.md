@@ -36,11 +36,11 @@ quite simple!
 
 In this context, [`impl`] can be thought of as defining an anonymous type
 parameter. For further reading, see the [reference](https://doc.rust-lang.org/reference/types/impl-trait.html).
-[`TryInto<...>`](https://doc.rust-lang.org/nightly/std/convert/trait.TryInto.html)
+[`TryInto<T>`](https://doc.rust-lang.org/nightly/std/convert/trait.TryInto.html)
 is a [trait](https://doc.rust-lang.org/nightly/std/keyword.trait.html) which
-defines fallible conversions, where the type within the angle brackets is the
-type being converted to. `Meters` is a type corresponding to the meter. So, in
-english - this type says "Give me any type that can be converted into meters,
+defines fallible conversions, where the type `T` (within the angle brackets) is
+the type being converted to. `Meters` is a type corresponding to the meter. So,
+in english - this type says "Give me any type that can be converted into meters,
 even if it may fail". Inside the function, conversion is done like this:
 
 ```rust
@@ -50,9 +50,12 @@ into_meters.try_into().unwrap();
 If you're in a function returning [`Result`](https://doc.rust-lang.org/nightly/std/result/enum.Result.html),
 consider using the try operator instead - `?`.
 
-```rust
-into_meters.try_into()?;
+```diff
+-into_meters.try_into().unwrap();
++into_meters.try_into()?;
 ```
+
+<!-- TODO: Explain how to add new units -->
 
 ## Reference-level Explanation
 
