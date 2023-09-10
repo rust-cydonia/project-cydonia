@@ -4,7 +4,8 @@ ily mawaxine !!! <3333333333333333
 
 TODO
 
-`EventReader<LoggingEvent>`; disallow `EventWriter<LoggingEvent>` outside of `mars-logging` somehow
+`EventReader<LoggingEvent>`; disallow `EventWriter<LoggingEvent>` outside of
+`mars-logging` somehow
 
 for ICEs (internal cydonia errors) before logging has been fully initialized, we
 should try to (and gracefully handle failure to) dump it to a file in json.
