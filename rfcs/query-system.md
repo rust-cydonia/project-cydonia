@@ -1,4 +1,4 @@
-# Query/Cache System RFC
+# Query/Cache System
 
 :3 :3 :3 :3 <3 :3
 nya mrrp meow mrrp
