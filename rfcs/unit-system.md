@@ -59,6 +59,7 @@ consider using the try operator instead - `?`.
 Now you can use interpret this parameter as meters carefree!
 
 <!-- TODO: Explain how to add new units -->
+<!-- TODO: Explain how to convert from a numeric type to a unit using traits >
 
 ## Reference-level Explanation
 

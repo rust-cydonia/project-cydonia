@@ -16,9 +16,12 @@ Interning large data structures makes equality comparisons [O(1) instead of O(n)
 as an interner guarantees each value stored within is unique. Passing around
 interned data is also more efficient as it can be represented as either an index
 into some interner or pointer. In `rustc`, the interner we use is the [`TyCtxt`](https://doc.rust-lang.org/nightly/nightly-rustc/rustc_middle/ty/struct.TyCtxt.html)
-(spoken as the type context) which internally holds this data in a `HashMap`.
-We will likely use an arena instead to reduce both number of allocations and
-making accessing the underlying data more efficient.
+(spoken as the type context) which internally holds this data in a `HashMap`. We
+will likely use an arena instead to reduce both number of allocations and making
+accessing the underlying data more efficient.
+
+<!-- TODO: This is slightly incorrect as we will still have a hashmap, but it's
+`key -> ptr` to arena rather than `key -> value` -->
 
 The main benefit of queries is that these do this work for you; i.e., they will
 get this data from the global interner or on disk automagically. It's all
@@ -73,6 +76,8 @@ As auto traits are currently unstable, we must implement this manually on types.
 Implementing this on a type should be `unsafe`, even if it isn't in the current
 implementation, as there are no guarantees this will not trigger Undefined
 Behavior in the future if used incorrectly.
+
+<!-- TODO: We will use auto traits. -->
 
 ### The `Steal` type
 
