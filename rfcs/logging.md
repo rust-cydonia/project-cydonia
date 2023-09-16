@@ -21,6 +21,8 @@ guess. pre-logging fatal errors should be considered "early", and everything els
 we actually won't use `tracing` for this as an `Event` is `!Send`. Fun. Let's
 reimplement this ourselves!
 
+PLEASE future cewentri actually write this.......
+
 panics should always be considered a bug.
 
 easy: disable the default `bevy::log::LogPlugin`
