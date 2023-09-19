@@ -17,16 +17,19 @@ at runtime.
 
 ## Motivation
 
+The ability to dispatch structured data to logging subscribers; Informally,
+giving logging the ability to arbitrarily format or discard this data however it
+wishes. This is advantageous over simply `dyn Debug` as this forces it to be
+formatted in one specific way. For example, an in-game console can use this to
+allow specific fields to be collapsed, rather than just displaying it using
+text. How nice!
+
+We can also serialize data like this easily. Deriving `Serialize` increase
+compile-times a lot. Serialization of `Value`, however, is very simple.
+
 ## [1]
 
 The reason for this, very broadly, is because lifetimes are [erased](https://doc.rust-lang.org/nightly/nightly-rustc/rustc_middle/ty/type.RegionKind.html#variant.ReErased)
 at runtime so downcasting to `A<'static>` from `A<'a>` would be unsound; you're
 extending the lifetime yet it still only lives for `'a`! There's currently no
 way to enforce this in the type system, and likely, there never will be.
-
-It's possible to make [`Any`](https://doc.rust-lang.org/nightly/std/any/trait.Any.html)
-an `unsafe trait` and its methods `unsafe` as well, but this is ridiculously
-silly. While it is no longer unsound, it is still Undefined Behavior and not
-even implemented automatically! We'd also need to fork [`bevy_reflect`](https://docs.rs/bevy_reflect/latest/bevy_reflect/index.html)
-to use this new `Any` trait. It's just not worth the effort when we could just
-convert to a common representation.
