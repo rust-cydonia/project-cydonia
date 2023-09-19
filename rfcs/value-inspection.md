@@ -29,9 +29,12 @@ compile time a lot. Serialization of `Value`, however, is very simple.
 
 ## Guide-level Explanation
 
-Conversion to this representation is simple: Simply call `as_value` on any type that implements `Valued`! This returns a `Value`, which you can then pass around and inspect.
+Conversion to this representation is simple: Simply call `as_value` on any type
+that implements `Valued`! This returns a `Value`, which you can then pass around
+and inspect.
 
-Implementing `Valued` is simple - Just `#[derive(Valued)]`. This will also derive `Typed`.
+Implementing `Valued` is simple - Just `#[derive(Valued)]`. This will also
+derive `Typed`.
 
 ## Reference-level Explanation
 
@@ -49,8 +52,8 @@ will be unable to inspect types with borrowed data. This is a problem, but the
 true extent of this is unclear.
 
 <!--
-TODO(Centri3): This wording is weird
-("This is a problem, but the true extent of this is unclear")
+TODO(Centri3): This wording is weird:
+"This is a problem, but the true extent of this is unclear"
 -->
 
 ## Prior Art
@@ -59,9 +62,7 @@ The [`valuable`](https://docs.rs/valuable/latest/valuable/index.html) crate.
 
 ## Unresolved Questions
 
-How will we derive `Typed` if `Reflect` also does so? Also, there is no dedicated derive macro for this - how will we even derive it? Perhaps we should reimplement this ourselves but allow opting out if `Reflect` is also implemented.
-
-Should our `Typed` and `Reflect`'s `Typed` implementations be required to be kept in sync? Also, how will `Reflect` and `Valued` interact? Will they need to be kept in sync as well?
+Empty for now.
 
 ## Future Possibilities
 
