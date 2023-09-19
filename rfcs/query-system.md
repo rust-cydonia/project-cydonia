@@ -3,7 +3,7 @@
 :3 :3 :3 :3 <3 :3
 nya mrrp meow mrrp
 
-## Summary
+## Abstract
 
 Cache interned data implementing the `Cacheable` trait, similar to the rustc
 interal [`Freeze`](https://stdrs.dev/nightly/x86_64-unknown-linux-gnu/core/marker/trait.Freeze.html)

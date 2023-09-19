@@ -2,7 +2,7 @@
 
 owo
 
-## Summary
+## Abstract
 
 A large collection of [ADT](https://en.wikipedia.org/wiki/Algebraic_data_type)s
 corresponding to common units, like `Millimeters` for mm, `Kilometers` for km,
