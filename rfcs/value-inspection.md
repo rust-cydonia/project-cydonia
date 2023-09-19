@@ -26,4 +26,7 @@ way to enforce this in the type system, and likely, there never will be.
 
 It's possible to make [`Any`](https://doc.rust-lang.org/nightly/std/any/trait.Any.html)
 an `unsafe trait` and its methods `unsafe` as well, but this is ridiculously
-silly. While it is no longer unsound, it is still Undefined Behavior!
+silly. While it is no longer unsound, it is still Undefined Behavior and not
+even implemented automatically! We'd also need to fork [`bevy_reflect`](https://docs.rs/bevy_reflect/latest/bevy_reflect/index.html)
+to use this new `Any` trait. It's just not worth the effort when we could just
+convert to a common representation.
