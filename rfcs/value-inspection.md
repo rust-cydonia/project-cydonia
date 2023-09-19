@@ -21,15 +21,52 @@ The ability to dispatch structured data to logging subscribers; Informally,
 giving logging the ability to arbitrarily format or discard this data however it
 wishes. This is advantageous over simply `dyn Debug` as this forces it to be
 formatted in one specific way. For example, an in-game console can use this to
-allow specific fields to be collapsed, rather than just displaying it using
-text. How nice!
+allow specific fields to be collapsed, rather than just displaying it in text.
+How nice!
 
-We can also serialize data like this easily. Deriving `Serialize` increase
-compile-times a lot. Serialization of `Value`, however, is very simple.
+We can also serialize data like this easily. Deriving `Serialize` can increase
+compile time a lot. Serialization of `Value`, however, is very simple.
 
-## [1]
+## Guide-level Explanation
+
+TODO
+
+## Reference-level Explanation
+
+TODO
+
+## Drawbacks
+
+Complexity - `dyn Debug` is simple, while visiting a `Value` isn't.
+
+## Rationale and Alternatives
+
+We could use [`bevy_reflect`](https://docs.rs/bevy_reflect/latest/bevy_reflect/index.html)
+instead. This will restrict us to `'static` lifetimes, however, which means we
+will be unable to inspect types with borrowed data. This is a problem, but the
+true extent of this is unclear.
+
+## Prior Art
+
+The [`valuable`](https://docs.rs/valuable/latest/valuable/index.html) crate.
+
+## Unresolved Questions
+
+TODO
+
+## Future Possibilities
+
+Publishing this on [crates.io](https://crates.io/) so others can use this too.
+
+### [1]
 
 The reason for this, very broadly, is because lifetimes are [erased](https://doc.rust-lang.org/nightly/nightly-rustc/rustc_middle/ty/type.RegionKind.html#variant.ReErased)
 at runtime so downcasting to `A<'static>` from `A<'a>` would be unsound; you're
 extending the lifetime yet it still only lives for `'a`! There's currently no
-way to enforce this in the type system, and likely, there never will be.
+way to enforce this either in the type system or at runtime, and likely, there
+never will be.
+
+Constraining `Any` to `'static` means there's no possible way to extend a
+lifetime like this, as `'static` lifetimes already live as long as possible. As
+such, downcasting is safe yet potentially less powerful than in other languages.
+It's a tradeoff.
